@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الاختبار التفاعلي للدرس الأول - العقيدة الإسلامية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Cairo', sans-serif; background: #f5f0dc; min-height: 100vh; padding: 20px; display: flex; justify-content: center; align-items: flex-start; }
+  .screen { max-width: 800px; width: 100%; background: #fff; border-radius: 20px; box-shadow: 0 20px 60px rgba(15,26,61,0.2); padding: 40px 30px; margin: 20px 0; border-top: 6px solid #d4a72c; }
+  .welcome { background: linear-gradient(135deg, #1a2b5c, #0f1a3d); color: #fff; text-align: center; padding: 50px 35px; border-top: none; }
+  .basmala { font-family: 'Amiri', serif; font-size: 24px; color: #e8c14e; margin-bottom: 15px; }
+  .welcome h1 { font-size: 30px; margin-bottom: 10px; }
+  .welcome .sub { font-size: 20px; color: #e8c14e; margin-bottom: 25px; font-weight: 700; }
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+  .badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(212,167,44,0.4); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+  .author { background: rgba(255,255,255,0.08); border: 2px dashed rgba(212,167,44,0.5); border-radius: 12px; padding: 12px; margin: 20px 0; color: #e8c14e; font-weight: 700; }
+  .name-input { width: 100%; max-width: 450px; padding: 14px 20px; border: 2px solid rgba(212,167,44,0.5); border-radius: 12px; font-family: 'Cairo', sans-serif; font-size: 17px; font-weight: 600; text-align: center; margin: 10px auto 20px; display: block; }
+  .btn-gold { background: linear-gradient(135deg, #d4a72c, #a8841f); color: #0f1a3d; border: none; padding: 16px 45px; border-radius: 14px; font-family: 'Cairo', sans-serif; font-size: 20px; font-weight: 900; cursor: pointer; box-shadow: 0 8px 22px rgba(212,167,44,0.4); transition: 0.3s; }
+  .btn-gold:hover { transform: translateY(-2px); }
+  .top-bar { background: linear-gradient(135deg, #1a2b5c, #0f1a3d); border-radius: 14px; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; color: #fff; font-weight: 700; flex-wrap: wrap; gap: 10px; }
+  .top-item { background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; font-size: 14px; border: 1px solid rgba(212,167,44,0.3); }
+  .progress { height: 8px; background: #e8dfc0; border-radius: 10px; overflow: hidden; margin-bottom: 22px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #d4a72c, #e8c14e); width: 0%; transition: width 0.4s; }
+  .section-label { color: #a8841f; text-align: center; font-weight: 700; font-size: 16px; padding-bottom: 12px; border-bottom: 2px dashed #e8dfc0; margin-bottom: 20px; }
+  .question-num { display: inline-block; background: linear-gradient(135deg, #1a2b5c, #0f1a3d); color: #fff; padding: 6px 18px; border-radius: 10px; font-size: 15px; font-weight: 700; margin-bottom: 15px; }
+  .question-text { color: #1a2b5c; font-size: 21px; font-weight: 700; margin-bottom: 20px; line-height: 1.7; }
+  .signs { background: #fef3c7; border-right: 5px solid #f59e0b; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; font-size: 17px; font-weight: 700; color: #78350f; line-height: 1.8; }
+  .verse-box { background: linear-gradient(135deg, #eef7ff, #e0ebff); border-right: 5px solid #3b82f6; border-radius: 12px; padding: 18px 22px; margin-bottom: 20px; font-family: 'Amiri', serif; font-size: 19px; line-height: 2; color: #1e3a5f; font-weight: 700; }
+  .hadith-box { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-right: 5px solid #16a34a; border-radius: 12px; padding: 18px 22px; margin-bottom: 20px; font-family: 'Amiri', serif; font-size: 18px; line-height: 2; color: #14532d; font-weight: 700; }
+  .field-label { font-size: 16px; font-weight: 700; color: #1a2b5c; margin: 16px 0 8px; display: block; }
+  .option { display: flex; align-items: center; gap: 12px; background: #fafbfd; padding: 14px 18px; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; transition: 0.25s; font-size: 17px; font-weight: 600; margin-bottom: 10px; }
+  .option:hover { border-color: #d4a72c; background: #fffef5; }
+  .option input { width: 20px; height: 20px; accent-color: #1a2b5c; cursor: pointer; }
+  .option.correct { border-color: #16a34a; background: #dcfce7; color: #14532d; }
+  .option.wrong { border-color: #dc2626; background: #fee2e2; color: #7f1d1d; }
+  .type-row { display: flex; gap: 10px; margin-top: 8px; }
+  .type-opt { flex: 1; padding: 14px; background: #fafbfd; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; text-align: center; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.25s; }
+  .type-opt:hover { border-color: #d4a72c; background: #fffef5; }
+  .type-opt input { accent-color: #1a2b5c; }
+  .type-opt.correct { border-color: #16a34a; background: #dcfce7; color: #14532d; }
+  .type-opt.wrong { border-color: #dc2626; background: #fee2e2; color: #7f1d1d; }
+  .witness-input { width: 100%; padding: 14px 18px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: 'Amiri', serif; font-size: 17px; font-weight: 600; background: #fafbfd; color: #333; transition: 0.25s; }
+  .witness-input:focus { outline: none; border-color: #d4a72c; background: #fff; box-shadow: 0 0 0 4px rgba(212,167,44,0.15); }
+  .witness-input.correct { border-color: #16a34a; background: #dcfce7; color: #14532d; }
+  .witness-input.wrong { border-color: #dc2626; background: #fee2e2; color: #7f1d1d; }
+  .feedback { margin-top: 18px; padding: 14px 18px; border-radius: 12px; font-size: 16px; font-weight: 700; line-height: 1.7; display: none; }
+  .feedback.show { display: block; }
+  .feedback.ok { background: #dcfce7; color: #14532d; border-right: 5px solid #16a34a; }
+  .feedback.no { background: #fee2e2; color: #7f1d1d; border-right: 5px solid #dc2626; }
+  .feedback .reason { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.1); font-size: 15px; }
+  .actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .btn { padding: 14px 26px; border: none; border-radius: 12px; font-family: 'Cairo', sans-serif; font-size: 17px; font-weight: 700; cursor: pointer; transition: 0.3s; flex: 1; min-width: 130px; }
+  .btn-navy { background: linear-gradient(135deg, #1a2b5c, #0f1a3d); color: #fff; box-shadow: 0 6px 18px rgba(26,43,92,0.35); }
+  .btn-navy:hover { transform: translateY(-2px); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .result-circle { width: 170px; height: 170px; border-radius: 50%; background: linear-gradient(135deg, #1a2b5c, #0f1a3d); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; border: 6px solid #d4a72c; }
+  .result-circle .n { font-size: 52px; font-weight: 900; color: #e8c14e; line-height: 1; }
+  .result-circle .of { font-size: 16px; margin-top: 4px; font-weight: 700; }
+  .result-title { text-align: center; color: #1a2b5c; font-size: 28px; font-weight: 900; margin-bottom: 10px; }
+  .result-msg { text-align: center; color: #666; font-size: 17px; font-weight: 600; margin-bottom: 22px; }
+  .struct-section { background: linear-gradient(135deg, #faf6e8, #f5f0dc); border-radius: 16px; padding: 22px; margin-bottom: 16px; border: 2px solid #e8dfc0; }
+  .struct-title { color: #1a2b5c; font-size: 19px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .struct-title .num-circle { background: linear-gradient(135deg, #d4a72c, #a8841f); color: #0f1a3d; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; flex-shrink: 0; }
+  .struct-field { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .struct-field .num { font-weight: 700; color: #a8841f; min-width: 22px; font-size: 18px; }
+  .struct-field input { flex: 1; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 600; background: #fff; transition: 0.25s; }
+  .struct-field input:focus { outline: none; border-color: #d4a72c; box-shadow: 0 0 0 4px rgba(212,167,44,0.15); }
+  .struct-field input.correct { border-color: #16a34a; background: #dcfce7; color: #14532d; }
+  .struct-field input.wrong { border-color: #dc2626; background: #fee2e2; color: #7f1d1d; }
+  .answer-key { background: linear-gradient(135deg, #f5f0dc, #faf6e8); border: 3px dashed #a8841f; border-radius: 16px; padding: 24px 26px; margin-top: 20px; display: none; }
+  .answer-key.show { display: block; animation: fadeIn 0.4s; }
+  .answer-key h3 { color: #1a2b5c; font-size: 20px; font-weight: 900; margin-bottom: 16px; text-align: center; }
+  .answer-key .k-section { margin-bottom: 16px; }
+  .answer-key .k-title { color: #a8841f; font-weight: 900; font-size: 17px; margin-bottom: 8px; }
+  .answer-key .k-item { color: #333; font-size: 16px; font-weight: 600; padding: 6px 12px; background: #fff; border-radius: 8px; margin-bottom: 6px; border-right: 3px solid #d4a72c; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 600px) {
+    .screen { padding: 25px 18px; }
+    .welcome h1 { font-size: 22px; }
+    .welcome .sub { font-size: 17px; }
+    .basmala { font-size: 20px; }
+    .question-text { font-size: 18px; }
+    .signs, .verse-box, .hadith-box { font-size: 15px; padding: 12px 14px; }
+    .option { font-size: 15px; padding: 12px 14px; }
+    .type-opt { font-size: 15px; padding: 12px 8px; }
+    .btn { font-size: 15px; padding: 12px 16px; }
+    .top-item { font-size: 13px; padding: 5px 10px; }
+    .struct-title { font-size: 17px; }
+    .struct-field input { font-size: 15px; padding: 10px 12px; }
+    .witness-input { font-size: 15px; padding: 12px 14px; }
+    .result-circle { width: 150px; height: 150px; }
+    .result-circle .n { font-size: 42px; }
+    .result-title { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="screen welcome" id="welcomeScreen">
+  <div class="basmala">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+  <h1>الاختبار التفاعلي للدرس الأول:</h1>
+  <div class="sub">العقيدة الإسلامية وآثارها على الفرد والمجتمع</div>
+  <div class="badges">
+    <span class="badge">📚 العلوم الإسلامية</span>
+    <span class="badge">🎓 3 ثانوي</span>
+    <span class="badge">📝 18 سؤالًا + 9 حقول</span>
+    <span class="badge">⏱️ 30 دقيقة</span>
+  </div>
+  <div class="author">👨‍🏫 الأستاذ: غرمول عبد الكريم</div>
+  <label style="color:#fff; font-weight:700; display:block; margin-bottom:8px;">✍️ اكتب اسمك:</label>
+  <input type="text" class="name-input" id="studentName" placeholder="الاسم واللقب">
+  <button class="btn-gold" onclick="startExam()">🎯 ابدأ الاختبار</button>
+</div>
+
+<div class="screen" id="structScreen" style="display:none;">
+  <div class="section-label">✍️ اختبار الحفظ — اكتب العناوين فقط</div>
+  <div class="struct-section">
+    <div class="struct-title"><span class="num-circle">1</span> التعريف والعلاقة:</div>
+    <div class="struct-field"><span class="num">1.</span><input type="text" data-keywords="لغوي,لغة" placeholder="اكتب هنا..."></div>
+    <div class="struct-field"><span class="num">2.</span><input type="text" data-keywords="اصطلاحي,اصطلاح" placeholder="اكتب هنا..."></div>
+    <div class="struct-field"><span class="num">3.</span><input type="text" data-keywords="علاقة,بين" placeholder="اكتب هنا..."></div>
+  </div>
+  <div class="struct-section">
+    <div class="struct-title"><span class="num-circle">2</span> آثار العقيدة الإسلامية على (الفرد):</div>
+    <div class="struct-field"><span class="num">1.</span><input type="text" data-exact="تُعرّف الإنسان على ذاته ومصيره" placeholder="اكتب هنا..."></div>
+    <div class="struct-field"><span class="num">2.</span><input type="text" data-exact="الطمأنينة والاستقرار النفسي" placeholder="اكتب هنا..."></div>
+    <div class="struct-field"><span class="num">3.</span><input type="text" data-exact="الاستقامة والبعد عن الانحراف والجريمة" placeholder="اكتب هنا..."></div>
+  </div>
+  <div class="struct-section">
+    <div class="struct-title"><span class="num-circle">3</span> آثار العقيدة الإسلامية على (المجتمع):</div>
+    <div class="struct-field"><span class="num">1.</span><input type="text" data-exact="الأخوة والتضامن" placeholder="اكتب هنا..."></div>
+    <div class="struct-field"><span class="num">2.</span><input type="text" data-exact="الصلاح والإصلاح" placeholder="اكتب هنا..."></div>
+    <div class="struct-field"><span class="num">3.</span><input type="text" data-exact="تحقق الأمن" placeholder="اكتب هنا..."></div>
+  </div>
+  <div class="feedback" id="structFeedback"></div>
+  <div class="answer-key" id="answerKey">
+    <h3>🔑 مفتاح الإجابات النموذجية</h3>
+    <div class="k-section">
+      <div class="k-title">1️⃣ التعريف والعلاقة:</div>
+      <div class="k-item">1. التعريف اللغوي</div>
+      <div class="k-item">2. التعريف الاصطلاحي</div>
+      <div class="k-item">3. العلاقة بين المعنى اللغوي والاصطلاحي</div>
+    </div>
+    <div class="k-section">
+      <div class="k-title">2️⃣ آثار العقيدة الإسلامية على (الفرد):</div>
+      <div class="k-item">1. تُعرّف الإنسان على ذاته ومصيره</div>
+      <div class="k-item">2. الطمأنينة والاستقرار النفسي</div>
+      <div class="k-item">3. الاستقامة والبعد عن الانحراف والجريمة</div>
+    </div>
+    <div class="k-section">
+      <div class="k-title">3️⃣ آثار العقيدة الإسلامية على (المجتمع):</div>
+      <div class="k-item">1. الأخوة والتضامن</div>
+      <div class="k-item">2. الصلاح والإصلاح</div>
+      <div class="k-item">3. تحقق الأمن</div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn btn-navy" onclick="checkStructure()">✔️ تحقق من الإجابات</button>
+    <button class="btn btn-navy" onclick="toggleAnswerKey()" id="keyBtn">🔑 إظهار الإجابات</button>
+  </div>
+  <div class="actions">
+    <button class="btn btn-navy" onclick="goToQuestions()">➡️ التالي: الأسئلة</button>
+  </div>
+</div>
+
+<div class="screen" id="examScreen" style="display:none;">
+  <div class="top-bar">
+    <span class="top-item">📝 سؤال <span id="qNum">1</span> من <span id="qTotal">18</span></span>
+    <span class="top-item">🏆 النقاط: <span id="score">0</span></span>
+    <span class="top-item">👤 <span id="nameDisplay">-</span></span>
+  </div>
+  <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+  <div id="questionArea"></div>
+  <div class="feedback" id="feedback"></div>
+  <div class="actions">
+    <button class="btn btn-navy" id="checkBtn" onclick="checkAnswer()">✔️ تأكيد الإجابة</button>
+    <button class="btn btn-navy" id="nextBtn" onclick="nextQuestion()" style="display:none;">➡️ السؤال التالي</button>
+  </div>
+</div>
+
+<div class="screen" id="resultScreen" style="display:none; text-align:center;">
+  <div class="result-circle">
+    <span class="n" id="finalScore">0</span>
+    <span class="of">من <span id="finalTotal">20</span></span>
+  </div>
+  <div class="result-title" id="resultTitle">النتيجة</div>
+  <div class="result-msg" id="resultMsg"></div>
+  <button class="btn-gold" onclick="location.reload()">🔄 إعادة المحاولة</button>
+</div><script>
+const questions = [
+  // ============ 🟡 مجموعة العلامات ============
+  { type: 'signs', section: 'الجزء الأول: المفاهيم والتطبيقات العامة', signs: '(ما فيه الدّعوة إلى التآخي والمحبّة والتّعاون والتّكافل والتّراحم)', question: 'ما الأثر المناسب لهذه العلامات وما نوعه؟', correct: 3, correctType: 'مجتمع' },
+  { type: 'signs', section: 'الجزء الأول: المفاهيم والتطبيقات العامة', signs: '(كان آمناً – البلد آمناً – كانت آمنة – خوفهم أمناً – وآمنهم من خوف ....)', question: 'ما الأثر المناسب لهذه العلامات وما نوعه؟', correct: 5, correctType: 'مجتمع' },
+  { type: 'signs', section: 'الجزء الأول: المفاهيم والتطبيقات العامة', signs: '(تطمئن – السّكينة)', question: 'ما الأثر المناسب لهذه العلامات وما نوعه؟', correct: 1, correctType: 'فرد' },
+  { type: 'signs', section: 'الجزء الأول: المفاهيم والتطبيقات العامة', signs: '(ما فيه الدّعوة الى الإصلاح أو الأمر بالمعروف والنّهي عن المنكر)', question: 'ما الأثر المناسب لهذه العلامات وما نوعه؟', correct: 4, correctType: 'مجتمع' },
+  { type: 'signs', section: 'الجزء الأول: المفاهيم والتطبيقات العامة', signs: '(اعبدوا الله، فاعبده، إليه المصير، إليه ترجعون، اليوم الآخر، السّاعة ...)', question: 'ما الأثر المناسب لهذه العلامات وما نوعه؟', correct: 0, correctType: 'فرد' },
+  { type: 'signs', section: 'الجزء الأول: المفاهيم والتطبيقات العامة', signs: '(النّهي عن فعل المحرّمات والمنكرات من شرب الخمر والزنا، وكالتعدي على النّاس أو أموالهم أو أعراضهم)', question: 'ما الأثر المناسب لهذه العلامات وما نوعه؟', correct: 2, correctType: 'فرد' },
+
+  // ============ 🔵 التطبيقات القرآنية ============
+  { type: 'verse', section: 'الجزء الثاني: التطبيقات القرآنية',
+    verse: '﴿اَ۟تْلُ مَآ أُوحِيَ إِلَيْكَ مِنَ اَ۬لْكِتَٰبِ وَأَقِمِ اِ۬لصَّلَوٰةَۖ إِنَّ اَ۬لصَّلَوٰةَ تَنْه۪ىٰ عَنِ اِ۬لْفَحْشَآءِ وَالْمُنكَرِۖ وَلَذِكْرُ اُ۬للَّهِ أَكْبَرُۖ وَاللَّهُ يَعْلَمُ مَا تَصْنَعُونَۖ﴾ [العنكبوت: 45]',
+    question: 'ما الأثر المناسب لهذه الآية؟',
+    witnessKeywords: 'الصلاة,تنهى عن الفحشاء',
+    witnessFull: '﴿وَأَقِمِ الصَّلَاةَ ۖ إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنكَرِ﴾',
+    correct: 2, correctType: 'فرد' },
+
+  { type: 'verse', section: 'الجزء الثاني: التطبيقات القرآنية',
+    verse: '﴿لَّقَدْ رَضِيَ اَ۬للَّهُ عَنِ اِ۬لْمُومِنِينَ إِذْ يُبَايِعُونَكَ تَحْتَ اَ۬لشَّجَرَةِ فَعَلِمَ مَا فِے قُلُوبِهِمْ فَأَنزَلَ اَ۬لسَّكِينَةَ عَلَيْهِمْ وَأَثَٰبَهُمْ فَتْحاٗ قَرِيباٗ﴾ [الفتح: 18]',
+    question: 'ما الأثر المناسب لهذه الآية؟',
+    witnessKeywords: 'السكينة',
+    witnessFull: '﴿فَأَنْزَلَ السَّكِينَةَ عَلَيْهِمْ﴾',
+    correct: 1, correctType: 'فرد' },
+
+  { type: 'verse', section: 'الجزء الثاني: التطبيقات القرآنية',
+    verse: '﴿بَدِيعُ اُ۬لسَّمَٰوَٰتِ وَالَارْضِۖ أَنّ۪ىٰ يَكُونُ لَهُۥ وَلَدٞ وَلَمْ تَكُن لَّهُۥ صَٰحِبَةٞۖ وَخَلَقَ كُلَّ شَےْءٖۖ وَهُوَ بِكُلِّ شَےْءٍ عَلِيمٞۖ ذَٰلِكُمُ اُ۬للَّهُ رَبُّكُمْۖ لَآ إِلَٰهَ إِلَّا هُوَۖ خَٰلِقُ كُلِّ شَےْءٖۖ فَاعْبُدُوهُۖ وَهُوَ عَلَىٰ كُلِّ شَےْءٖ وَكِيلٞۖ﴾ [الأنعام: 102-103]',
+    question: 'ما الأثر المناسب لهذه الآية؟',
+    witnessKeywords: 'فاعبدوه',
+    witnessFull: '﴿خَالِقُ كُلِّ شَيْءٍ فَاعْبُدُوهُ﴾',
+    correct: 0, correctType: 'فرد' },
+
+  { type: 'verse', section: 'الجزء الثاني: التطبيقات القرآنية',
+    verse: '﴿وَإِذَا قِيلَ إِنَّ وَعْدَ اَ۬للَّهِ حَقّٞ وَالسَّاعَةُ لَا رَيْبَ فِيهَا قُلْتُم مَّا نَدْرِے مَا اَ۬لسَّاعَةُ إِن نَّظُنُّ إِلَّا ظَنّاٗ وَمَا نَحْنُ بِمُسْتَيْقِنِينَۖ﴾ [الجاثية: 31]',
+    question: 'ما الأثر المناسب لهذه الآية؟',
+    witnessKeywords: 'الساعة',
+    witnessFull: '﴿وَالسَّاعَةُ لَا رَيْبَ فِيهَا قُلْتُم مَّا نَدْرِي مَا السَّاعَةُ﴾',
+    correct: 0, correctType: 'فرد' },
+
+  { type: 'verse', section: 'الجزء الثاني: التطبيقات القرآنية',
+    verse: '﴿إِنَّ اَ۬للَّهَ يَامُرُ بِالْعَدْلِ وَالِاحْسَٰنِ وَإِيتَآءِےْ ذِے اِ۬لْقُرْب۪ىٰۖ وَيَنْه۪ىٰ عَنِ اِ۬لْفَحْشَآءِ وَالْمُنكَرِ وَالْبَغْيِۖ يَعِظُكُمْ لَعَلَّكُمْ تَذَّكَّرُونَۖ﴾ [النحل: 90]',
+    question: 'ما الأثر المناسب لهذه الآية؟',
+    witnessKeywords: 'الفحشاء',
+    witnessFull: '﴿وَيَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنكَرِ وَالْبَغْيِ﴾',
+    witnessKeywordsAlt: 'إن الله يأمر بالعدل والإحسان',
+    witnessFullAlt: '﴿إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ﴾',
+    correct: 2, correctType: 'فرد',
+    alsoAccepted: { index: 4, type: 'مجتمع', text: 'الصلاح والإصلاح' } },
+
+  { type: 'verse', section: 'الجزء الثاني: التطبيقات القرآنية',
+    verse: '﴿وَاعْتَصِمُواْ بِحَبْلِ اِ۬للَّهِ جَمِيعاٗۖ وَلَا تَفَرَّقُواْۖ وَاذْكُرُواْ نِعْمَتَ اَ۬للَّهِ عَلَيْكُمُۥٓ إِذْ كُنتُمُۥٓ أَعْدَآءٗ فَأَلَّفَ بَيْنَ قُلُوبِكُمْ فَأَصْبَحْتُم بِنِعْمَتِهِۦٓ إِخْوَٰناٗۖ وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٖ مِّنَ اَ۬لنّ۪ارِ فَأَنقَذَكُم مِّنْهَاۖ كَذَٰلِكَ يُبَيِّنُ اُ۬للَّهُ لَكُمُۥٓ ءَايَٰتِهِۦ لَعَلَّكُمْ تَهْتَدُونَۖ﴾ [آل عمران: 103]',
+    question: 'ما الأثر المناسب لهذه الآية؟',
+    witnessKeywords: 'اعتصموا,لا تفرقوا,إخوانا,أصبحتم',
+    witnessFull: '﴿وَاعْتَصِمُوا بِحَبْلِ اللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا﴾',
+    witnessFullAlt: '﴿فَأَصْبَحْتُمْ بِنِعْمَتِهِ إِخْوَانًا﴾',
+    correct: 3, correctType: 'مجتمع' },
+
+  { type: 'verse', section: 'الجزء الثاني: التطبيقات القرآنية',
+    verse: '﴿قَالَ يَٰقَوْمِ أَرَٰٓيْتُمُۥٓ إِن كُنتُ عَلَىٰ بَيِّنَةٖ مِّن رَّبِّے وَرَزَقَنِے مِنْهُ رِزْقاً حَسَناٗۖ وَمَآ أُرِيدُ أَنُْ ا۟خَالِفَكُمُۥٓ إِلَىٰ مَآ أَنْه۪يٰكُمْ عَنْهُۖ إِنُ ا۟رِيدُ إِلَّا اَ۬لِاصْلَٰحَ مَا اَ۪سْتَطَعْتُۖ وَمَا تَوْفِيقِيَ إِلَّا بِاللَّهِۖ عَلَيْهِ تَوَكَّلْتُۖ وَإِلَيْهِ أُنِيبُۖ﴾ [هود: 88]',
+    question: 'ما الأثر المناسب لهذه الآية؟',
+    witnessKeywords: 'الإصلاح',
+    witnessFull: '﴿إِنْ أُرِيدُ إِلَّا الْإِصْلَاحَ مَا اسْتَطَعْتُ﴾',
+    correct: 4, correctType: 'مجتمع' },
+
+  { type: 'verse', section: 'الجزء الثاني: التطبيقات القرآنية',
+    verse: '﴿اَ۬لذِينَ ءَامَنُواْ وَلَمْ يَلْبِسُوٓاْ إِيمَٰنَهُم بِظُلْمٍ ا۟وْلَٰٓئِكَ لَهُمُ اُ۬لَامْنُ وَهُم مُّهْتَدُونَۖ وَتِلْكَ حُجَّتُنَآ ءَاتَيْنَٰهَآ إِبْرَٰهِيمَ عَلَىٰ قَوْمِهِۦۖ نَرْفَعُ دَرَجَٰتِ مَن نَّشَآءُۖ اِ۪نَّ رَبَّكَ حَكِيمٌ عَلِيمٞۖ﴾ [الأنعام: 83-84]',
+    question: 'ما الأثر المناسب لهذه الآية؟',
+    witnessKeywords: 'الأمن',
+    witnessFull: '﴿أُولَٰئِكَ لَهُمُ الْأَمْنُ﴾',
+    correct: 5, correctType: 'مجتمع' },
+
+  // ============ 🟣 الأحاديث النبوية ============
+  { id: 'hadith1', type: 'hadith', section: 'الجزء الثالث: تطبيقات الأحاديث النبوية',
+    hadith: 'قال النبي صلى الله عليه وسلم: (إنَّ اللهَ يَرضى لكم ثَلاثًا، ويَكرَهُ لكم ثَلاثًا، فيَرضى لكم: أن تَعبُدوه ولا تُشرِكوا به شيئًا، وأن تَعتَصِموا بحَبلِ اللهِ جَميعًا ولا تَفَرَّقوا، ويَكرَهُ لكم: قيلَ وقال، وكَثرةَ السُّؤالِ، وإضاعةَ المالِ) [صحيح مسلم]',
+    question: 'ما الأثر المناسب لهذا الحديث؟',
+    witnessKeywords: 'اعتصموا',
+    witnessFull: '(وَأَن تَعْتَصِمُوا بِحَبْلِ اللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا)',
+    witnessKeywordsAlt: 'تعبدوه,تشركوا',
+    witnessFullAlt: '(أَن تَعْبُدُوهُ وَلَا تُشْرِكُوا بِهِ شَيْئًا)',
+    correct: 3, correctType: 'مجتمع',
+    alsoAccepted: { index: 0, type: 'فرد', text: 'تعرّف الإنسان على ذاته ومصيره' } },
+
+  { id: 'hadith2', type: 'hadith', section: 'الجزء الثالث: تطبيقات الأحاديث النبوية',
+    hadith: 'عَنْ عُبَادَةَ بْنِ الصَّامِتِ قَالَ: (كُنَّا مَعَ رَسُولِ اللهِ صلى الله عليه وسلم فِي مَجْلِسٍ فَقَالَ: تُبَايِعُونِي عَلَى أَنْ لَا تُشْرِكُوا بِاللهِ شَيْئًا، وَلَا تَزْنُوا، وَلَا تَسْرِقُوا، وَلَا تَقْتُلُوا النَّفْسَ الَّتِي حَرَّمَ اللهُ إِلَّا بِالْحَقِّ، فَمَنْ وَفَى مِنْكُمْ فَأَجْرُهُ عَلَى اللهِ، وَمَنْ أَصَابَ شَيْئًا مِنْ ذَلِكِ فَعُوقِبَ بِهِ فَهُوَ كَفَّارَةٌ لَهُ، وَمَنْ أَصَابَ شَيْئًا مِنْ ذَلِكَ فَسَتَرَهُ اللهُ عَلَيْهِ فَأَمْرُهُ إِلَى اللهِ، إِنْ شَاءَ عَفَا عَنْهُ، وَإِنْ شَاءَ عَذَّبَهُ) [رواه البخاري ومسلم]',
+    question: 'ما الأثر المناسب لهذا الحديث؟',
+    witnessKeywords: 'ولا تزنوا,ولا تسرقوا,ولا تقتلوا النفس',
+    witnessFull: '(وَلَا تَزْنُوا، وَلَا تَسْرِقُوا، وَلَا تَقْتُلُوا النَّفْسَ الَّتِي حَرَّمَ اللهُ إِلَّا بِالْحَقِّ)',
+    correct: 2, correctType: 'فرد' },
+
+  { id: 'hadith3', type: 'hadith', section: 'الجزء الثالث: تطبيقات الأحاديث النبوية',
+    hadith: 'عَنْ أَبِي هُرَيْرَةَ رضي الله عنه؛ قَالَ: قَالَ رَسُولُ اللهِ صلى الله عليه وسلم: «... وَلَا يَبِعْ بَعْضُكُمْ عَلَىَ بَيعِ بَعْضٍ، وَكُونُوا عِبَادَ اللهِ إِخْوَانًا. المُسْلِمُ أَخُو المُسْلِمِ، لَا يَظْلِمُهُ، وَلَا يَخْذُلُهُ، وَلَا يَكْذِبُهُ، وَلَا يَحْقِرُهُ، التّقْوَىَ هَهُنَا -وَيُشِيرُ إِلَىَ صَدْرِهِ ثَلَاثَ مَرّاتٍ-، بِحَسْبِ امْرِئٍ مِنَ الشَّرِّ أَنْ يَحْقِرَ أَخَاهُ المُسْلِمَ، كُلُّ المُسْلِمِ عَلَىَ المُسْلِمِ حَرَامٌ؛ دَمُهُ وَمَالُهُ وَعِرْضُهُ». [رَوَاهُ مُسْلِمٌ]',
+    question: 'ما الأثر المناسب لهذا الحديث؟',
+    witnessKeywords: 'إخوانا,أخو,أخو المسلم',
+    witnessFull: '(وَكُونُوا عِبَادَ اللهِ إِخْوَانًا. المُسْلِمُ أَخُو المُسْلِمِ)',
+    witnessKeywordsAlt: 'يظلمه,يخذله,يكذبه,يحقره',
+    witnessFullAlt: '(لَا يَظْلِمُهُ، وَلَا يَخْذُلُهُ، وَلَا يَكْذِبُهُ، وَلَا يَحْقِرُهُ)',
+    correct: 3, correctType: 'مجتمع',
+    alsoAccepted: { index: 5, type: 'مجتمع', text: 'تحقق الأمن' } },
+
+  { id: 'hadith4', type: 'hadith', section: 'الجزء الثالث: تطبيقات الأحاديث النبوية',
+    hadith: 'عَنْ أَبِي هُرَيْرَةَ رضي الله عنه، عن النَّبِيِّ صلى الله عليه وسلم قالَ: «اجْتَنِبُوا السَّبْعَ المُوبِقَاتِ». قَالُوا: يا رَسُولَ اللَّهِ، وَما هُنَّ؟ قالَ: «الشِّرْكُ بِاللَّهِ، وَالسِّحْرُ، وَقَتْلُ النَّفْسِ الَّتِي حَرَّمَ اللَّهُ إِلَّا بِالحَقِّ، وَأَكْلُ الرِّبَا، وَأَكْلُ مَالِ اليَتِيمِ، وَالتَّوَلِّي يَوْمَ الزَّحْفِ، وَقَذْفُ المُحْصَنَاتِ المُؤمِنَاتِ الغَافِلَاتِ». رواه البخاري ومسلم',
+    question: 'ما الأثر المناسب لهذا الحديث؟',
+    witnessKeywords: 'اجتنبوا,السبع,الموبقات,الشرك,السحر,قتل,الربا,اليتيم,التولي,الزحف,قذف,المحصنات',
+    witnessFull: '(اجْتَنِبُوا السَّبْعَ الْمُوبِقَاتِ)',
+    correct: 2, correctType: 'فرد' }
+];
+
+const effects = [
+  'تعرّف الإنسان على ذاته ومصيره',
+  'الطمأنينة والاستقرار النفسي',
+  'الاستقامة والبعد عن الانحراف والجريمة',
+  'الأخوة والتضامن',
+  'الصلاح والإصلاح',
+  'تحقق الأمن'
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+let studentName = '';
+
+function normalize(text) {
+  return text.trim()
+    .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u08D4-\u08E1\u08E3-\u08FF\uFE70-\uFE7F]/g, '')
+    .replace(/[ۖۗۘۙۚۛۜ۝۞ۣ۟۠ۡۢۤۥۦۧۨ۩۪ۭ۫۬]/g, '')
+    .replace(/[\u0650\u0651\u0652\u0653\u0654\u0655]/g, '')
+    .replace(/[أإآٱا]/g, 'ا')
+    .replace(/[ىيے]/g, 'ي')
+    .replace(/ة/g, 'ه')
+    .replace(/\s+/g, ' ')
+    .replace(/[^\u0621-\u064A\s]/g, '')
+    .trim();
+}
+
+function matchKeywords(answer, keywordsStr) {
+  if (!answer.trim()) return false;
+  const norm = normalize(answer);
+  const keys = keywordsStr.split(',').map(k => normalize(k.trim()));
+  return keys.some(k => norm.includes(k));
+}
+
+function matchExact(answer, expected) {
+  if (!answer.trim()) return false;
+  return normalize(answer) === normalize(expected);
+}function startExam() {
+  const name = document.getElementById('studentName').value.trim();
+  if (!name) { alert('⚠️ الرجاء كتابة اسمك أولًا'); return; }
+  studentName = name;
+  document.getElementById('nameDisplay').textContent = name;
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('structScreen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkStructure() {
+  const inputs = document.querySelectorAll('#structScreen input[data-keywords], #structScreen input[data-exact]');
+  let correctCount = 0;
+  inputs.forEach(input => {
+    let isOk = false;
+    if (input.dataset.keywords) isOk = matchKeywords(input.value, input.dataset.keywords);
+    else if (input.dataset.exact) isOk = matchExact(input.value, input.dataset.exact);
+    input.classList.remove('correct', 'wrong');
+    if (isOk) { input.classList.add('correct'); correctCount++; }
+    else { input.classList.add('wrong'); }
+  });
+  const fb = document.getElementById('structFeedback');
+  fb.className = 'feedback show ' + (correctCount === inputs.length ? 'ok' : 'no');
+  fb.innerHTML = `✅ حصلت على <strong>${correctCount}</strong> من <strong>${inputs.length}</strong> — ${correctCount === inputs.length ? 'ممتاز!' : 'راجع الأخطاء ثم أعد المحاولة'}`;
+}
+
+function toggleAnswerKey() {
+  const key = document.getElementById('answerKey');
+  key.classList.toggle('show');
+  document.getElementById('keyBtn').textContent = key.classList.contains('show') ? '🔒 إخفاء الإجابات' : '🔑 إظهار الإجابات';
+}
+
+function goToQuestions() {
+  document.getElementById('structScreen').style.display = 'none';
+  document.getElementById('examScreen').style.display = 'block';
+  document.getElementById('qTotal').textContent = questions.length;
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[currentQ];
+  document.getElementById('qNum').textContent = currentQ + 1;
+  document.getElementById('progressFill').style.width = ((currentQ) / questions.length * 100) + '%';
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  fb.textContent = '';
+  document.getElementById('checkBtn').style.display = 'block';
+  document.getElementById('checkBtn').disabled = false;
+  document.getElementById('nextBtn').style.display = 'none';
+
+  let contentBox = '';
+  if (q.type === 'verse') {
+    contentBox = `<div class="verse-box">📖 <strong>الآية:</strong> ${q.verse}</div>`;
+  } else if (q.type === 'hadith') {
+    contentBox = `<div class="hadith-box">🕌 <strong>الحديث:</strong> ${q.hadith}</div>`;
+  } else {
+    contentBox = `<div class="signs"><strong>🟡 العلامات:</strong> ${q.signs}</div>`;
+  }
+
+  let html = `
+    <div class="section-label">✦ ${q.section} ✦</div>
+    <div class="question-num">【 السؤال ${currentQ + 1} 】</div>
+    <div class="question-text">${q.question}</div>
+    ${contentBox}
+    <div class="field-label">اختر الأثر المناسب:</div>
+  `;
+  effects.forEach((eff, i) => {
+    html += `<label class="option" id="opt-${i}"><input type="radio" name="q-answer" value="${i}" onchange="selectOption(${i})"><span>${eff}</span></label>`;
+  });
+
+  if (q.witnessKeywords) {
+    html += `<div class="field-label">✍️ اكتب الشاهد (أو الكلمة المفتاحية منه):</div>
+    <input type="text" class="witness-input" id="witnessInput" placeholder="اكتب هنا...">`;
+  }
+
+  html += `
+    <div class="field-label">نوع الأثر:</div>
+    <div class="type-row">
+      <label class="type-opt" id="type-fard"><input type="radio" name="q-type" value="فرد" onchange="selectType('فرد')"><span>على الفرد</span></label>
+      <label class="type-opt" id="type-mujtama"><input type="radio" name="q-type" value="مجتمع" onchange="selectType('مجتمع')"><span>على المجتمع</span></label>
+    </div>
+  `;
+  document.getElementById('questionArea').innerHTML = html;
+}
+
+function selectOption(i) {
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  document.getElementById('opt-' + i).classList.add('selected');
+}
+
+function selectType(t) {
+  document.querySelectorAll('.type-opt').forEach(o => o.classList.remove('selected'));
+  if (t === 'فرد') document.getElementById('type-fard').classList.add('selected');
+  else document.getElementById('type-mujtama').classList.add('selected');
+}
+
+function checkAnswer() {
+  if (answered) return;
+  const q = questions[currentQ];
+  const selectedOpt = document.querySelector('input[name="q-answer"]:checked');
+  const selectedType = document.querySelector('input[name="q-type"]:checked');
+  const witnessInput = document.getElementById('witnessInput');
+
+  if (!selectedOpt || !selectedType) { alert('⚠️ الرجاء اختيار الأثر ونوع الأثر'); return; }
+  if (witnessInput && !witnessInput.value.trim()) { alert('⚠️ الرجاء كتابة الشاهد'); return; }
+
+  answered = true;
+  const optIndex = parseInt(selectedOpt.value);
+  const typeValue = selectedType.value;
+
+  let isPrimaryCorrect = (optIndex === q.correct && typeValue === q.correctType);
+  let isAltCorrect = false;
+  if (q.alsoAccepted) {
+    isAltCorrect = (optIndex === q.alsoAccepted.index && typeValue === q.alsoAccepted.type);
+  }
+  const isAnswerCorrect = isPrimaryCorrect || isAltCorrect;
+
+  let requiredWitnessKeywords = q.witnessKeywords;
+  let requiredWitnessFull = q.witnessFull;
+
+  if (isAltCorrect && q.witnessKeywordsAlt) {
+    requiredWitnessKeywords = q.witnessKeywordsAlt;
+    requiredWitnessFull = q.witnessFullAlt;
+  }
+
+  let isWitnessCorrect = true;
+  if (witnessInput && requiredWitnessKeywords) {
+    isWitnessCorrect = matchKeywords(witnessInput.value, requiredWitnessKeywords);
+    witnessInput.classList.add(isWitnessCorrect ? 'correct' : 'wrong');
+  }
+
+  if (optIndex !== q.correct && (!q.alsoAccepted || optIndex !== q.alsoAccepted.index)) {
+    document.getElementById('opt-' + optIndex).classList.add('wrong');
+  }
+  document.getElementById('opt-' + q.correct).classList.add('correct');
+
+  const correctType = isPrimaryCorrect ? q.correctType : (isAltCorrect ? q.alsoAccepted.type : q.correctType);
+  if (typeValue === correctType) {
+    if (typeValue === 'فرد') document.getElementById('type-fard').classList.add('correct');
+    else document.getElementById('type-mujtama').classList.add('correct');
+  } else {
+    if (typeValue === 'فرد') document.getElementById('type-fard').classList.add('wrong');
+    else document.getElementById('type-mujtama').classList.add('wrong');
+    if (correctType === 'فرد') document.getElementById('type-fard').classList.add('correct');
+    else document.getElementById('type-mujtama').classList.add('correct');
+  }
+
+  let pointsEarned = 0;
+  const fullCorrect = isAnswerCorrect && (isWitnessCorrect || !witnessInput);
+  if (fullCorrect) pointsEarned = 3;
+  else if (isAnswerCorrect && witnessInput && !isWitnessCorrect) pointsEarned = 2;
+  score += pointsEarned;
+
+  const fb = document.getElementById('feedback');
+  let msg = '';
+  let classType = '';
+
+  if (fullCorrect) {
+    classType = 'ok';
+    msg = `✅ إجابة صحيحة! أحسنت. (${pointsEarned} نقاط)`;
+
+    // 📖 إظهار الشاهد كاملًا
+    if (requiredWitnessFull) {
+      msg += `<div class="reason">📖 <strong>الشاهد كاملًا:</strong> ${requiredWitnessFull}</div>`;
+    }
+
+    // 💡 إظهار الشاهد الآخر إن وُجد
+    if (q.alsoAccepted) {
+      if (isAltCorrect) {
+        msg += `<div class="reason">💡 إجابة أخرى صحيحة: <strong>${effects[q.correct]}</strong> — <strong>على ${q.correctType}</strong><br>شاهدها: <strong>${q.witnessFull || ''}</strong></div>`;
+      } else {
+        msg += `<div class="reason">💡 إجابة أخرى صحيحة: <strong>${q.alsoAccepted.text}</strong> — <strong>على ${q.alsoAccepted.type}</strong><br>شاهدها: <strong>${q.witnessFullAlt || ''}</strong></div>`;
+      }
+    }
+    // 💡 في س8: نفس الأثر لكن شاهدان
+    else if (q.witnessFullAlt && witnessInput) {
+      const wroteFirst = matchKeywords(witnessInput.value, q.witnessKeywords);
+      if (wroteFirst) {
+        msg += `<div class="reason">💡 هناك شاهد آخر مقبول: <strong>${q.witnessFullAlt}</strong></div>`;
+      } else {
+        msg += `<div class="reason">💡 هناك شاهد آخر مقبول: <strong>${q.witnessFull}</strong></div>`;
+      }
+    }
+  } else if (isAnswerCorrect && !isWitnessCorrect) {
+    classType = 'no';
+    msg = `⚠️ الأثر والنوع صحيحان، لكن <strong>الشاهد خاطئ</strong>. (2 نقاط)`;
+    msg += `<div class="reason">📖 الشاهد النموذجي كاملًا: <strong>${requiredWitnessFull || requiredWitnessKeywords.split(',')[0]}</strong></div>`;
+  } else {
+    classType = 'no';
+    let reason = '';
+    if (!isAnswerCorrect) {
+      if (optIndex !== q.correct && (!q.alsoAccepted || optIndex !== q.alsoAccepted.index)) {
+        reason = 'الأثر الذي اخترته غير صحيح.';
+      } else {
+        reason = 'نوع الأثر غير مناسب.';
+      }
+    }
+    if (!isWitnessCorrect && witnessInput) {
+      reason += ' والشاهد غير صحيح.';
+    }
+    msg = `❌ إجابة خاطئة.<div class="reason">${reason}<br>الإجابة النموذجية: <strong>${effects[q.correct]}</strong> — <strong>على ${q.correctType}</strong>${requiredWitnessFull ? `<br>📖 الشاهد كاملًا: <strong>${requiredWitnessFull}</strong>` : ''}</div>`;
+  }
+
+  fb.className = 'feedback show ' + classType;
+  fb.innerHTML = msg;
+
+  document.getElementById('score').textContent = score;
+  document.getElementById('checkBtn').style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'block';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= questions.length) showResult();
+  else renderQuestion();
+}
+
+function showResult() {
+  document.getElementById('examScreen').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'block';
+
+  const total = 48;
+  const score20 = (score * 20) / total;
+
+  let grade = '', color = '', icon = '';
+  if (score20 >= 18) { grade = 'ممتاز'; icon = '🏆'; color = '#16a34a'; }
+  else if (score20 >= 16) { grade = 'جيد جدًا'; icon = '🥇'; color = '#22c55e'; }
+  else if (score20 >= 14) { grade = 'جيد'; icon = '🥈'; color = '#84cc16'; }
+  else if (score20 >= 12) { grade = 'قريب من الجيد'; icon = '🥉'; color = '#eab308'; }
+  else if (score20 >= 10) { grade = 'مقبول'; icon = '✅'; color = '#f59e0b'; }
+  else { grade = 'راسب'; icon = '❌'; color = '#dc2626'; }
+
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('ar-DZ', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  document.getElementById('finalScore').textContent = score20.toFixed(2);
+  document.getElementById('finalTotal').textContent = '20';
+
+  document.getElementById('resultTitle').textContent = `${icon} ${grade}`;
+  document.getElementById('resultMsg').innerHTML = `
+    <div style="background: #fff; border-radius: 16px; padding: 22px; margin-top: 15px; border: 2px solid #e8dfc0; text-align: right;">
+      <div style="font-size: 17px; line-height: 2.2; color: #1a2b5c;">
+        <div>👤 <strong>الطالب:</strong> ${studentName}</div>
+        <div>📚 <strong>المادة:</strong> العلوم الإسلامية</div>
+        <div>📖 <strong>الدرس:</strong> العقيدة الإسلامية وآثارها على الفرد والمجتمع</div>
+        <div>🎯 <strong>النتيجة:</strong> ${score} / ${total} = <strong>${score20.toFixed(2)} / 20</strong></div>
+        <div>🏅 <strong>التقدير:</strong> <span style="color:${color}; font-weight: 900;">${grade}</span></div>
+        <div>📅 <strong>التاريخ:</strong> ${dateStr}</div>
+        <div>👨‍🏫 <strong>الأستاذ:</strong> غرمول عبد الكريم</div>
+      </div>
+    </div>
+    <div style="margin-top: 18px; font-size: 15px; color: #888;">
+      ${score20 >= 10 ? '🎉 مبروك النجاح! واصل الاجتهاد.' : '💪 راجع الدرس وأعد المحاولة — بالتوفيق.'}
+    </div>
+  `;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
